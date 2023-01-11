@@ -1,0 +1,4 @@
+node_modules
+cdk.out
+test/globalSetup.js
+jest.config.js

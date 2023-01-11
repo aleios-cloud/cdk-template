@@ -1,3 +1,3 @@
-import getUser from './getUser/config';
+import { getUser } from './getUser/config';
 
 export const functions = { getUser };

@@ -1,17 +1,18 @@
-import { getLambdaHandler } from '@swarmion/serverless-contracts';
-import { applyHttpMiddlewares } from '@swarmion/serverless-helpers';
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
-import { getUserContract } from '@swarmion-starter/users-contracts';
+import { APIGatewayProxyResult } from 'aws-lambda';
 
-const handler = getLambdaHandler(getUserContract)(async event => {
-  const { userId } = event.pathParameters;
+export const main = async (event: {
+  body: string;
+}): Promise<APIGatewayProxyResult> => {
+  const userId = JSON.parse(event.body)?.userId;
 
   await Promise.resolve({ userId });
+  const result = {
+    statusCode: 200,
+    body: JSON.stringify(userId),
+  };
 
-  return { userId, userName: 'hello_world' };
-});
-
-export const main = applyHttpMiddlewares(handler, {
-  inputSchema: getUserContract.inputSchema,
-  outputSchema: getUserContract.outputSchema,
-});
+  return result;
+};

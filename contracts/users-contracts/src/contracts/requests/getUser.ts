@@ -13,8 +13,8 @@ const pathParametersSchema = {
 
 export const getUserContract = new ApiGatewayContract({
   id: 'users-getUser',
-  path: '/users/{userId}',
-  method: 'GET',
+  path: '/users',
+  method: 'POST',
   integrationType: 'httpApi',
   pathParametersSchema,
   queryStringParametersSchema: undefined,

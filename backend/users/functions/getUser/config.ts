@@ -1,12 +1,18 @@
-import { getTrigger } from '@swarmion/serverless-contracts';
-import { getHandlerPath, LambdaFunction } from '@swarmion/serverless-helpers';
+import { getCdkHandlerPath } from '@swarmion/serverless-helpers';
+import { Architecture, Runtime } from 'aws-cdk-lib/aws-lambda';
+import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
+import { Construct } from 'constructs';
 
-import { getUserContract } from '@swarmion-starter/users-contracts';
-
-const config: LambdaFunction = {
-  environment: {},
-  handler: getHandlerPath(__dirname),
-  events: [getTrigger(getUserContract)],
-};
-
-export default config;
+export class getUser extends Construct {
+  public getUserLambda: NodejsFunction;
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+    this.getUserLambda = new NodejsFunction(this, 'Lambda', {
+      entry: getCdkHandlerPath(__dirname),
+      handler: 'main',
+      runtime: Runtime.NODEJS_16_X,
+      architecture: Architecture.ARM_64,
+      awsSdkConnectionReuse: true,
+    });
+  }
+}
